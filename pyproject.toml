@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "distillation-labs"
+version = "0.1.0"
+description = "Self-contained labs for learning model & LLM distillation, from classic Hinton KD to on-policy GKD, pruning, and DeepSeek-R1-style reasoning distillation."
+requires-python = ">=3.10"
+readme = "README.md"
+
+# All runtime dependencies (torch, transformers, trl, peft, accelerate,
+# deepspeed, vllm, datasets, matplotlib, flash-attn, ...) are expected to
+# already be installed in the conda environment the labs run in. See
+# scripts/check_env.py to verify. We intentionally do not pin/install
+# dependencies here so this package install step never touches your
+# working environment's package versions.
+dependencies = []
+
+[tool.setuptools]
+packages = ["common"]

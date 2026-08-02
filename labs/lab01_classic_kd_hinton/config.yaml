@@ -1,0 +1,22 @@
+teacher_model: bert-base-uncased
+student_model: prajjwal1/bert-tiny
+
+max_length: 128
+train_samples: 4000
+eval_samples: 872 # full SST-2 validation split
+
+teacher_epochs: 2
+teacher_lr: 2.0e-5
+teacher_batch_size: 32
+
+student_epochs: 6
+student_lr: 5.0e-4
+student_batch_size: 64
+
+# Sweep grid for train_student_kd.py. alpha=0 doesn't depend on temperature
+# (it's pure hard-label training), so it's only run once regardless of how
+# many temperatures are listed here.
+temperatures: [1.0, 2.0, 4.0, 8.0]
+alphas: [0.0, 0.5, 1.0]
+
+seed: 0

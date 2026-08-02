@@ -1,0 +1,29 @@
+teacher_model: Qwen/Qwen2.5-7B-Instruct
+student_base_model: Qwen/Qwen2.5-0.5B # fallback if lab03 hasn't been run yet
+
+train_prompts: 1000
+eval_prompts: 50
+
+gkd:
+  epochs: 1
+  learning_rate: 1.0e-5
+  per_device_train_batch_size: 4
+  gradient_accumulation_steps: 4
+  max_new_tokens: 128
+  temperature: 0.9
+
+# lmbda: fraction of each batch that is on-policy (student self-generated,
+#   teacher-scored) rather than off-policy (fixed dataset target).
+#     0.0 = fully off-policy  (~ lab03's SFT distillation, but with a
+#           distribution-matching loss instead of plain cross-entropy)
+#     1.0 = fully on-policy   (student generates everything; teacher only
+#           supervises the student's own rollouts)
+# beta: forward/reverse KL interpolation for the divergence loss (lab02).
+#     0.0 ~ forward KL (mode-covering), 1.0 ~ reverse KL (mode-seeking),
+#     0.5 = symmetric Jensen-Shannon.
+sweep:
+  - { lmbda: 0.0, beta: 0.5 }
+  - { lmbda: 0.5, beta: 0.5 }
+  - { lmbda: 1.0, beta: 0.5 }
+  - { lmbda: 0.5, beta: 0.0 }
+  - { lmbda: 0.5, beta: 1.0 }

@@ -1,0 +1,27 @@
+teacher_model: deepseek-ai/DeepSeek-R1-Distill-Qwen-32B
+student_base_model: Qwen/Qwen2.5-1.5B
+
+train_problems: 800
+eval_problems: 200
+seed: 0
+
+generation:
+  k_samples_per_problem: 4
+  max_new_tokens: 1024
+  temperature: 0.8
+  top_p: 0.95
+
+# Rule-based readability filter (crude proxies for the "mixed
+# language / garbled / degenerate" checks DeepSeek-R1's paper describes).
+filtering:
+  min_trace_words: 20
+  max_trace_words: 700
+  max_non_ascii_ratio: 0.3
+
+sft:
+  epochs: 3
+  learning_rate: 1.0e-5
+  per_device_train_batch_size: 4
+  gradient_accumulation_steps: 4
+  max_length: 1536
+  warmup_ratio: 0.03

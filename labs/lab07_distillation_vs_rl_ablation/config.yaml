@@ -1,0 +1,16 @@
+# Deliberately the same base model + same eval split (seed, eval_problems)
+# as lab06, so the two approaches are compared fairly on identical data.
+student_base_model: Qwen/Qwen2.5-1.5B
+train_problems: 800
+eval_problems: 200
+seed: 0
+
+grpo:
+  num_generations: 8 # group size G for GRPO's relative-advantage estimate
+  per_device_train_batch_size: 8 # must be a multiple of num_generations
+  gradient_accumulation_steps: 4
+  max_steps: 200
+  learning_rate: 1.0e-6
+  max_prompt_length: 256
+  max_completion_length: 512
+  temperature: 1.0

@@ -1,0 +1,50 @@
+# Default teacher/student pair. Stretch option: swap teacher_model for
+# Qwen/Qwen2.5-72B-Instruct or meta-llama/Llama-3.1-70B-Instruct (fetch
+# with `python scripts/download_models.py --labs lab09 --stretch` first).
+teacher_model: Qwen/Qwen2.5-32B-Instruct
+student_base_model: Qwen/Qwen2.5-3B
+
+seed: 0
+
+data:
+  alpaca_train: 3000
+  alpaca_eval: 100
+  gsm8k_train: 1500
+  gsm8k_eval: 200
+
+generation:
+  max_new_tokens: 512
+  temperature: 0.7
+  top_p: 0.9
+
+sft:
+  epochs: 2
+  learning_rate: 1.0e-5
+  per_device_train_batch_size: 4
+  gradient_accumulation_steps: 4
+  max_length: 1536
+  warmup_ratio: 0.03
+
+gkd:
+  epochs: 1
+  learning_rate: 1.0e-5
+  per_device_train_batch_size: 2
+  gradient_accumulation_steps: 8
+  max_new_tokens: 256
+  temperature: 0.9
+  lmbda: 0.5
+  beta: 0.5
+  train_prompts_gkd: 1500
+
+eval:
+  mmlu_subjects:
+    [
+      high_school_mathematics,
+      elementary_mathematics,
+      high_school_physics,
+      college_computer_science,
+      world_religions,
+    ]
+  mmlu_n_per_subject: 30
+  latency_n_prompts: 20
+  latency_max_new_tokens: 256

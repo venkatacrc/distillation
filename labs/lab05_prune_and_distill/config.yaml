@@ -1,0 +1,19 @@
+base_model: Qwen/Qwen2.5-7B
+target_layers_to_prune: 6 # Qwen2.5-7B has 28 layers; drop ~21%
+
+importance:
+  calibration_samples: 64
+  max_length: 512
+
+recovery:
+  train_samples: 4000
+  max_length: 512
+  batch_size: 4
+  epochs: 1
+  learning_rate: 1.0e-5
+  kd_alpha: 0.9 # weight on the KD (forward-KL) loss vs. plain next-token LM loss
+  log_every: 10
+
+eval:
+  perplexity_samples: 200
+  max_length: 512

@@ -1,0 +1,39 @@
+teacher_model: Qwen/Qwen2.5-32B-Instruct
+student_base_model: Qwen/Qwen2.5-3B
+
+teacher_server:
+  port: 8000
+  tensor_parallel_size: 2
+  gpus: "0,1" # CUDA_VISIBLE_DEVICES for serve_teacher_vllm.sh
+
+train_prompts: 3000
+eval_prompts: 150
+seed: 0
+
+generation:
+  max_new_tokens: 256
+  temperature: 0.7
+  top_p: 0.9
+  concurrency: 16 # parallel HTTP requests to the teacher server
+
+sft:
+  epochs: 2
+  learning_rate: 1.0e-5
+  per_device_train_batch_size: 4
+  gradient_accumulation_steps: 2
+  max_length: 1024
+  warmup_ratio: 0.03
+
+gkd:
+  epochs: 1
+  learning_rate: 1.0e-5
+  per_device_train_batch_size: 2
+  gradient_accumulation_steps: 4
+  max_new_tokens: 128
+  temperature: 0.9
+  lmbda: 0.5
+  beta: 0.5
+  train_prompts_gkd: 1500
+
+judge:
+  model: Qwen/Qwen2.5-32B-Instruct # reuse the already-running teacher server for judging too
