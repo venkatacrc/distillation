@@ -19,7 +19,7 @@ from datasets import Dataset, load_dataset
 
 def load_sst2(split: str = "train", n: Optional[int] = None) -> Dataset:
     """Stanford Sentiment Treebank v2 (binary sentiment), used in lab01."""
-    ds = load_dataset("glue", "sst2", split=split)
+    ds = load_dataset("nyu-mll/glue", "sst2", split=split)
     if n:
         ds = ds.select(range(min(n, len(ds))))
     return ds
