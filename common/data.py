@@ -46,7 +46,7 @@ def load_gsm8k(split: str = "train", n: Optional[int] = None, seed: int = 0) -> 
 
 def load_wikitext2(split: str = "train", n: Optional[int] = None) -> Dataset:
     """WikiText-2 raw text, used in lab02 for real token-distribution comparisons."""
-    ds = load_dataset("wikitext", "wikitext-2-raw-v1", split=split)
+    ds = load_dataset("Salesforce/wikitext", "wikitext-2-raw-v1", split=split)
     ds = ds.filter(lambda x: len(x["text"].strip()) > 20)
     if n:
         ds = ds.select(range(min(n, len(ds))))
